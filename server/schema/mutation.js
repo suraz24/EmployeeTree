@@ -27,7 +27,12 @@ const Mutation = new GraphQLObjectType({
                         name: args.name,
                         managerId: args.managerId
                     });
-                    return employee.save()
+                    return Employee.findOne({employeeId: args.employeeId})
+                            .then(res => {
+                                if(res){
+                                    throw new Error(`Employee with employeeId: ${res.employeeId} exists already`);
+                                }
+                                return employee.save()
                                     .then(result => {
                                         console.log(result);
                                         return { ...result._doc, _id: result._doc._id.toString()};
@@ -36,6 +41,12 @@ const Mutation = new GraphQLObjectType({
                                         console.log(err);
                                         throw err;
                                     });
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                throw err;
+                            })
+                    
                 
             }
         },
@@ -61,19 +72,26 @@ const Mutation = new GraphQLObjectType({
                 managerId: { type: GraphQLInt },
             },
             resolve(parentValue, args ){
-                let employee = new Employee({
-                    name: args.name,
-                    managerId: args.managerId
-                });
-                return Employee.findByIdAndUpdate(args._id, {$set:{name: args.name, managerId: args.managerId}},{new: true, runValidatos: true})
-                                .then(res => {
-                                    console.log(res);
-                                    return res._doc;
+                return Employee.findById(args._id)
+                                .then(employee => {
+                                    if(!employee){
+                                        throw new Error(`Employeed with _id ${args._id} not found`);
+                                    }
+                                    return Employee.findByIdAndUpdate(args._id, {$set:{name: args.name, managerId: args.managerId}},{new: true, runValidatos: true})
+                                    .then(res => {
+                                        console.log(res);
+                                        return res._doc;
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                        return err;
+                                    });
                                 })
                                 .catch(err => {
                                     console.log(err);
-                                    return err;
-                                });
+                                    throw err;
+                                })
+               
             }
         }
     }

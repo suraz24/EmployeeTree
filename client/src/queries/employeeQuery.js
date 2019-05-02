@@ -6,14 +6,6 @@ const getAllEmployees = gql `
             _id
             employeeId
             name
-            manager{
-                employeeId
-                name
-                employees{
-                    employeeId
-                    name
-                }
-            }
         }
     }
 `
@@ -31,3 +23,13 @@ mutation($employeeId:Int!, $name:String!){
 export {
     getAllEmployees, addEmployee
 };
+
+
+ // manager{
+            //     employeeId
+            //     name
+            //     employees{
+            //         employeeId
+            //         name
+            //     }
+        //}

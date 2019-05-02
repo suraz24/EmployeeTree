@@ -16,9 +16,10 @@ class EmployeeList extends Component{
         if(data.loading){
             return(<Spin indicator={antIcon} />);
         } else {
+            console.log(data);
             return data.employees.map(employee => {
                 return (
-                    <li key={employee.id}>{employee.name}</li>
+                    <li key={employee._id}>{employee.name}</li>
                 );
             })
         }
