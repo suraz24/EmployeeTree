@@ -5,6 +5,7 @@ const { EmployeeType } = require("./types");
 const {
     GraphQLObjectType,
     GraphQLInt,
+    GraphQLID,
     GraphQLString,
     GraphQLNonNull
 } = graphql;
@@ -16,33 +17,36 @@ const Mutation = new GraphQLObjectType({
         addEmployee: {
             type: EmployeeType,
             args: {
-                id: { type: new GraphQLNonNull(GraphQLInt) },
+                employeeId: { type: new GraphQLNonNull(GraphQLInt) },
                 name: { type: new GraphQLNonNull(GraphQLString) },
                 managerId: { type: GraphQLInt },
             },
             resolve(parentValue, args ){
-                let emp = Employee.findOne({id: args.id});
-                console.log(emp);
-                if(emp != null){
                     let employee = new Employee({
-                        id: args.id,
+                        employeeId: args.employeeId,
                         name: args.name,
-                    managerId: args.managerId
+                        managerId: args.managerId
                     });
-                    return employee.save({new: true});
-                }else{
-                    return `A record with id: ${args.id} already exists`;
-                }
+                    return employee.save()
+                                    .then(result => {
+                                        console.log(result);
+                                        return { ...result._doc, _id: result._doc._id.toString()};
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                        throw err;
+                                    });
+                
             }
         },
         deleteEmployee: {
             type: GraphQLString,
             args: {
-                id: { type: new GraphQLNonNull(GraphQLInt) },
+               _id: { type: new GraphQLNonNull(GraphQLID) },
             },
             resolve(parentValue, args ){
-                return Employee.deleteOne({id: args.id})
-                                .then(res => `Successfully deleted the user with id ${args.id}`)
+                return Employee.findByIdAndDelete(args._id)
+                                .then(res => `Successfully deleted the user with id ${args._id} and name ${res._doc.name}`)
                                 .catch(err => {
                                     console.log(err);
                                     throw err;
@@ -52,7 +56,7 @@ const Mutation = new GraphQLObjectType({
         editEmployee: {
             type: EmployeeType,
             args: {
-                id: { type: new GraphQLNonNull(GraphQLInt) },
+                _id: { type: new GraphQLNonNull(GraphQLID) },
                 name: { type: GraphQLString },
                 managerId: { type: GraphQLInt },
             },
@@ -61,10 +65,10 @@ const Mutation = new GraphQLObjectType({
                     name: args.name,
                     managerId: args.managerId
                 });
-                return Employee.findOneAndUpdate({id: args.id}, {$set:{name: args.name, managerId: args.managerId}},{new: true, runValidatos: true})
+                return Employee.findByIdAndUpdate(args._id, {$set:{name: args.name, managerId: args.managerId}},{new: true, runValidatos: true})
                                 .then(res => {
                                     console.log(res);
-                                    return res;
+                                    return res._doc;
                                 })
                                 .catch(err => {
                                     console.log(err);

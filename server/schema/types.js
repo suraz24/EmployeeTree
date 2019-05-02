@@ -5,19 +5,21 @@ const {
     GraphQLInt,
     GraphQLString,
     GraphQLList,
+    GraphQLID
 } = graphql;
 
 const EmployeeType = new GraphQLObjectType({
     name: 'Employee',
     fields: () => ({
-        id: {type: GraphQLInt},
+        _id: {type: GraphQLID},
+        employeeId: {type: GraphQLInt},
         name: {type: GraphQLString},
         manager: {
             type: ManagerType, 
             resolve(parent, args){
 
-                return Employee.find({id: parent.managerId})
-                                .then(res => {console.log(res.data); return res.data;})
+                return Employee.find({employeeId: parent.managerId})
+                                .then(res => {console.log(res.data); return res.data._doc;})
                                 .catch(err => {throw err});
             }
         }
@@ -27,7 +29,7 @@ const EmployeeType = new GraphQLObjectType({
 const ManagerType = new GraphQLObjectType({
     name: 'Manager',
     fields: () => ({
-        id: {type: GraphQLInt},
+        employeeId: {type: GraphQLInt},
         name: {type: GraphQLString},
         employees: {
             type: new GraphQLList(EmployeeType),
@@ -35,6 +37,13 @@ const ManagerType = new GraphQLObjectType({
                 console.log(parent.managerId)
                 console.log(Employee.find({managerId: parent.managerId}));
                 return Employee.find({managerId: parent.managerId})
+                                .then(res => {
+                                    return res._doc;
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    throw err;
+                                }) 
             }
         }
     })

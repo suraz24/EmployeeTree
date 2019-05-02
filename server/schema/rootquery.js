@@ -7,6 +7,7 @@ const {
     GraphQLObjectType,
     GraphQLInt,
     GraphQLList,
+    GraphQLID
 } = graphql;
 
 const RootQuery = new GraphQLObjectType({
@@ -14,13 +15,13 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         employee:{
             type: EmployeeType,
-            args: {id: {type: GraphQLInt}},
+            args: {_id: {type: GraphQLID}},
             resolve(parent, args){
-                return Employee.findOne({id : args.id})
+                return Employee.findById(args._id)
                                 .then(res => {
-                                    console.log(args.id)
+                                    console.log(args._id)
                                     console.log(res)
-                                    return res;   
+                                    return res._doc;   
                                 })
                                 .catch(err => {
                                     console.log(err);
@@ -30,15 +31,32 @@ const RootQuery = new GraphQLObjectType({
         },
         manager:{
             type: ManagerType,
-            args: {id: {type: GraphQLInt}},
+            args: {employeeId: {type: GraphQLInt}},
             resolve(parent, args){
-                return Employee.find({managerId: args.id})
+                console.log(args);
+                console.log(Employee.find({managerId: args.employeeId}));
+                return Employee.find({managerId: args.employeeId})
+                                .then(res => {
+                                    console.log(...res._doc)
+                                    return res._doc
+                                })
             }
         },
         employees: {
             type: new GraphQLList(EmployeeType),
             resolve(parent, args){
-               return Employee.find(); 
+               return Employee.find()
+                                .then(employees => {
+                                    console.log(employees)
+                                    return employees.map( employee => {
+                                        console.log(employee)
+                                        return { ...employee._doc}
+                                    })
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    throw err;
+                                }) 
             }
         }
     }

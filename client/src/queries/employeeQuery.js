@@ -3,13 +3,14 @@ import { gql } from 'apollo-boost';
 const getAllEmployees = gql `
     {
         employees{
-            id
+            _id
+            employeeId
             name
             manager{
-                id
+                employeeId
                 name
                 employees{
-                    id
+                    employeeId
                     name
                 }
             }
@@ -18,10 +19,11 @@ const getAllEmployees = gql `
 `
 
 const addEmployee = gql`
-mutation($id:Int!, $name:String!){
-    addEmployee(id:$id name:$name) {
+mutation($employeeId:Int!, $name:String!){
+    addEmployee(employeeId:$employeeId name:$name) {
+        _id
         name
-        id
+        employeeId
     }
 }
 `
