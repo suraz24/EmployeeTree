@@ -20,12 +20,12 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div className="app">
-        <div className="left-container">
+        <div className="upper-container">
           <EmployeeList />
-          <AddEmployee />
-        </div>
-        <div className="right-container">
           <h1>Space to display</h1>
+        </div>
+        <div className="lower-container">
+          <AddEmployee />
         </div>
       </div>
     </ApolloProvider>

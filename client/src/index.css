@@ -16,13 +16,18 @@ code {
 
 .app {
   height: 100vh;
-  padding: 5% 10%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.left-container{
+  width:70%;
+  padding: 3% 0;
+  margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+
+
+.upper-container{
+  display: flex;
+  justify-content: space-between;
+  flex: 3
 }

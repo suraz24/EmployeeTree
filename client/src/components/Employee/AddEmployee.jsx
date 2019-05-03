@@ -3,8 +3,6 @@ import {
     Form, Input, Button, Select, Alert,
   } from 'antd';
 
-import Alert from '../utils/Alerts';
-
 import { graphql, compose } from 'react-apollo';
 import {getAllEmployees, addEmployee} from '../../queries/employeeQuery';
   
@@ -82,7 +80,7 @@ class AddEmployee extends Component{
                   }
 
 
-                <Form onSubmit={this.handleSubmit} className="login-form">
+                <Form onSubmit={this.handleSubmit} className="addEmployeeForm">
                     <Form.Item>
                     {getFieldDecorator('empId', {
                         rules: [{ required: true, message: 'Please input employee id' }],
