@@ -14,11 +14,12 @@ class AddEmployee extends Component{
         this.state = {
             id: "",
             name: "",
-            managerName:"",
+            managerId:"",
             loading: false,
+            alertVisible: false,
+            alertVariant: '',
+            alertMessage: ''
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.getManagerNames = this.getManagerNames.bind(this);
     }
 
     handleSubmit = (e) => {
@@ -29,15 +30,24 @@ class AddEmployee extends Component{
               this.props.addEmployee({
                   variables: {
                       employeeId: parseInt(this.state.id),
-                      name: this.state.name 
+                      name: this.state.name ,
+                      managerId: this.state.managerId,
                     },
                     refetchQueries: [{ query: getAllEmployees }]
                 })
-                .then(employee => {
-                    console.log(employee.data.addEmployee.name);
+                .then(res => {
+                    this.setState({
+                        alertVisible: true,
+                        alertVariant: 'success',
+                        alertMessage: `Employee with employeeId: ${res.data.addEmployee.employeeId} and name: ${res.data.addEmployee.name} was successfully created!`
+                    });
                 })
                 .catch(error => {
-                    alert(error.graphQLErrors[0].message);
+                    this.setState({
+                        alertVisible: true,
+                        alertVariant: 'error',
+                        alertMessage: error.graphQLErrors[0].message
+                    });
                 });
                 this.setState({loading: false});
             }
@@ -47,21 +57,23 @@ class AddEmployee extends Component{
         });
       }
 
-      getManagerNames(){
+      getManagerNames = () => {
         const { getAllEmployees } = this.props;
         const { Option }  = Select;
         if(getAllEmployees.loading){
             console.log('loading...')
         }else{
             return getAllEmployees.employees.map(employee => {
-                return <Option key= {employee._id} value={employee._id}>{employee.name}</Option>
+                return <Option key= {employee.employeeId} value={employee.employeeId}>{employee.name}</Option>
             }); 
         }
     }
 
-    handleSnackbar
-
-      
+    handleAlertClose = () =>{
+        this.setState({
+            alertVisible: false,
+        });
+    }
 
     render(){
         const { getFieldDecorator } = this.props.form;
@@ -74,11 +86,10 @@ class AddEmployee extends Component{
                         message={this.state.alertMessage}
                         type={this.state.alertVariant}
                         closable
-                        afterClose={this.handleClose}
+                        afterClose={this.handleAlertClose}
                       />
                     ) : null
                   }
-
 
                 <Form onSubmit={this.handleSubmit} className="addEmployeeForm">
                     <Form.Item>
@@ -101,7 +112,7 @@ class AddEmployee extends Component{
                             placeholder="Select a manager"
                             optionFilterProp="children"
                             loading = {this.state.selectLoading}
-                            onChange = {e => this.setState({managerName: e})}
+                            onChange = {e => {this.setState({managerId: e})}}
                             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                         >   
                             <Option key={0} value="No Manager">No Manager</Option>
