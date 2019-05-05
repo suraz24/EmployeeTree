@@ -17,11 +17,12 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true
 }));
 
+var PORT = process.env.port || 8081;
 //connect to mongodb database using mongoose
 mongoose.connect(mongoURL)
         .then(
-            app.listen(process.env.port, () => {
-                console.log('App running on port 4000');
+            app.listen(PORT, () => {
+                console.log(`App running on port${PORT}`);
             })
         )
         .catch(err => {

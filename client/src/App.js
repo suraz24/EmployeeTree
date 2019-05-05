@@ -17,7 +17,7 @@ const client = new ApolloClient({
 
 
 function App() {
-  console.log(process.env.SERVER_URL);
+  console.log(process.env.REACT_APP_SERVER_URL);
   return (
     <ApolloProvider client={client}>
       <div className="app">

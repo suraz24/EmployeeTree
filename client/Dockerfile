@@ -3,7 +3,7 @@ FROM node:latest
 LABEL email="surazad9851@gmail.com"
 
 ENV PORT=3000
-ENV SERVER_URL=http://localhost:4000/graphql
+ENV REACT_APP_SERVER_URL=http://localhost:8081/graphql
 
 COPY . /var/www/emptree-client
 

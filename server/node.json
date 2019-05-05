@@ -3,6 +3,6 @@
         "mongoUsername": "admin",
         "mongoPW": "Test123!",
         "mongoDB": "employeedb",
-        "port":4000
+        "port":8081
     }   
 }

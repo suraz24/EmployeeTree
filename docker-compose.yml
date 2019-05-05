@@ -5,38 +5,13 @@ services:
     build:
       context: .
       dockerfile: ./server/Dockerfile
+    working_dir: /var/www
     ports:
-      - 8080:4000
+      - 8080:8081
     volumes:
-      - .:/var/www/emptree-server/
+      - ./:/var/www/
     environment:
+      PORT: 8081
       mongoUsername: admin,
       mongoPW: Test123!,
       mongoDB: employeedb
-
-  emptree-server2:
-    build:
-      context: .
-      dockerfile: ./server/Dockerfile
-    ports:
-      - 8081:4000
-    volumes:
-      - .:/var/www/emptree-server/ 
-    environment:
-      mongoUsername: admin,
-      mongoPW: Test123!,
-      mongoDB: employeedb
-
-  emptree-client:
-    build:
-      context: .
-      dockerfile: ./client/Dockerfile
-    ports:
-      - 5555:3000
-    volumes:
-      - .:/var/www/emptree-client/
-    environment:
-      SERVER_URL: localhost:8080/graphql,
-
-  
- 
