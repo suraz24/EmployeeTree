@@ -1,0 +1,8 @@
+{
+    "env": {
+        "mongoUsername": "admin",
+        "mongoPW": "Test123!",
+        "mongoDB": "employeedb",
+        "port":8081
+    }   
+}
