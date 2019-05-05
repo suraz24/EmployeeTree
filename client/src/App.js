@@ -12,11 +12,12 @@ import 'antd/dist/antd.css';
 
 //apollo client setup
 const client = new ApolloClient({
-  uri:'http://localhost:4000/graphql',
+  uri:process.env.REACT_APP_SERVER_URL,
 });
 
 
 function App() {
+  console.log(process.env.SERVER_URL);
   return (
     <ApolloProvider client={client}>
       <div className="app">

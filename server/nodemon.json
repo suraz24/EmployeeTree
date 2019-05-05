@@ -2,6 +2,7 @@
     "env": {
         "mongoUsername": "admin",
         "mongoPW": "Test123!",
-        "mongoDB": "employeedb"
+        "mongoDB": "employeedb",
+        "port":4000
     }   
 }

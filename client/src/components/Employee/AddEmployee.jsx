@@ -14,7 +14,7 @@ class AddEmployee extends Component{
         this.state = {
             id: "",
             name: "",
-            managerId:"",
+            managerId:0,
             loading: false,
             alertVisible: false,
             alertVariant: '',
@@ -27,11 +27,12 @@ class AddEmployee extends Component{
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
           if (!err) {
+
               this.props.addEmployee({
                   variables: {
                       employeeId: parseInt(this.state.id),
                       name: this.state.name ,
-                      managerId: this.state.managerId,
+                      managerId: parseInt(this.state.managerId) !== 0 ? parseInt(this.state.managerId) : null,
                     },
                     refetchQueries: [{ query: getAllEmployees }]
                 })

@@ -20,7 +20,7 @@ app.use('/graphql', graphqlHTTP({
 //connect to mongodb database using mongoose
 mongoose.connect(mongoURL)
         .then(
-            app.listen(4000, () => {
+            app.listen(process.env.port, () => {
                 console.log('App running on port 4000');
             })
         )
