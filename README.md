@@ -4,6 +4,8 @@ A simple app that displays the relational data in hierarchical view.This app use
 # Deployed app
 The deployed version of the app can be accessed via: http://employeetree.s3-website.us-east-2.amazonaws.com/
 
+# Architecture Diagram
+![Alt text](/Architecture.png?raw=true "Architecture")
 
 #Running app locally
 
