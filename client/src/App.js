@@ -8,6 +8,8 @@ import AddEmployee from './components/Employee/AddEmployee';
 
 //css from antd library
 import 'antd/dist/antd.css';
+//css for tree
+import 'react-tree-graph/dist/style.css'
 
 
 //apollo client setup
@@ -17,7 +19,6 @@ const client = new ApolloClient({
 
 
 function App() {
-  console.log(process.env.REACT_APP_SERVER_URL);
   return (
     <ApolloProvider client={client}>
       <div className="app">

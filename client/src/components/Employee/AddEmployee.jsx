@@ -6,7 +6,6 @@ import {
 import { graphql, compose } from 'react-apollo';
 import {getAllEmployees, addEmployee} from '../../queries/employeeQuery';
   
-
 class AddEmployee extends Component{
     constructor(props){
         super(props);
@@ -63,7 +62,7 @@ class AddEmployee extends Component{
         if(getAllEmployees.loading){
             console.log('loading...')
         }else{
-            if(getAllEmployees.employees == null || getAllEmployees.employees == undefined){
+            if(getAllEmployees.employees === null || getAllEmployees.employees === undefined){
                 return null;
             }
             return getAllEmployees.employees.map(employee => {

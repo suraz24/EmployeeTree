@@ -13,6 +13,9 @@ code {
     monospace;
 }
 
+#root{
+  background: #F5F5F5;
+}
 
 .app {
   height: 100vh;
@@ -25,10 +28,32 @@ code {
   align-items: center;
 }
 
-
-
 .upper-container{
   display: flex;
   justify-content: space-between;
-  flex: 3
+  flex: 3;
+  padding: 1%;
 }
+
+svg.custom .node circle {
+	fill: #F3F3FF;
+	stroke: #2593B8;
+	stroke-width: 1.5px;
+}
+
+svg.custom .node text {
+	font-size: 14px;
+	background-color: #444;
+	fill: #000000;
+}
+
+svg.custom .node {
+	cursor: pointer;
+}
+
+svg.custom path.link {
+	fill: none;
+	stroke: #2593B8;
+	stroke-width: 1.5px;
+}
+
