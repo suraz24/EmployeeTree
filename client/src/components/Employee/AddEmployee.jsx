@@ -27,7 +27,6 @@ class AddEmployee extends Component{
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
           if (!err) {
-
               this.props.addEmployee({
                   variables: {
                       employeeId: parseInt(this.state.id),
@@ -64,6 +63,9 @@ class AddEmployee extends Component{
         if(getAllEmployees.loading){
             console.log('loading...')
         }else{
+            if(getAllEmployees.employees == null || getAllEmployees.employees == undefined){
+                return null;
+            }
             return getAllEmployees.employees.map(employee => {
                 return <Option key= {employee.employeeId} value={employee.employeeId}>{employee.name}</Option>
             }); 

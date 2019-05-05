@@ -23,7 +23,6 @@ function App() {
       <div className="app">
         <div className="upper-container">
           <EmployeeList />
-          <h1>Space to display</h1>
         </div>
         <div className="lower-container">
           <AddEmployee />
