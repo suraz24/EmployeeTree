@@ -13,7 +13,7 @@ class EmployeeList extends Component{
         const antIcon = <Icon type="loading" style={{ fontSize: 36 }} spin />;
 
         if(data.loading){
-            return(<Spin indicator={antIcon} />);
+            return(<Spin indicator={antIcon} />)
         } else {
             console.log(JSON.stringify(data.employees));
             // json(data.employees, function(emp){
